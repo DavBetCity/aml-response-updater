@@ -70,7 +70,7 @@ def get_player_data():
 ############################################################################################
 ###### MAIN
 ############################################################################################
-def main():
+def main(message=None):
     bq = BQ(local=False)
     players = get_player_data()
     table_name = "registry_player_logs"
@@ -91,6 +91,8 @@ def main():
 
     # Create/Replace table
     bq.create_replace_table(df, bq_table)
+
+    return "Success"
 
 
 if __name__ == "__main__":
