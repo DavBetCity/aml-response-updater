@@ -71,7 +71,7 @@ def get_player_data():
 ###### MAIN
 ############################################################################################
 def main(message=None):
-    bq = BQ(local=False)
+    bq = BQ(local=True)
     players = get_player_data()
     table_name = "registry_player_logs"
     bq_table = f"betcity-319812.aml_app.{table_name}"
@@ -92,6 +92,7 @@ def main(message=None):
     # Create/Replace table
     bq.create_replace_table(df, bq_table)
 
+    print(f"Success inserted: {len(df)} rows to {bq_table}")
     return "Success"
 
 
