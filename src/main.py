@@ -1,7 +1,11 @@
+import os
 import pandas as pd
 from db.bq import BQ
+from dotenv import load_dotenv
 from db.pgsql import connect_postgres
 from utils.queries import query_all_registry_players, get_all_colnames_query
+
+load_dotenv()
 
 
 ############################################################################################
@@ -71,7 +75,9 @@ def get_player_data():
 ###### MAIN
 ############################################################################################
 def main(message=None):
-    bq = BQ(local=True)
+    local = os.environ.get("ENVIRONMENT") == "development" or False
+
+    bq = BQ(local=local)
     players = get_player_data()
     table_name = "registry_player_logs"
     bq_table = f"betcity-319812.aml_app.{table_name}"

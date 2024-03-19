@@ -3,7 +3,7 @@ from google.cloud import bigquery
 
 
 class BQ:
-    def __init__(self, local=True):
+    def __init__(self, local=False):
         if local:
             os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./client_secrets.json"
 
