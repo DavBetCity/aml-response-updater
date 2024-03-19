@@ -75,9 +75,20 @@ def main(message=None):
     players = get_player_data()
     table_name = "registry_player_logs"
     bq_table = f"betcity-319812.aml_app.{table_name}"
+    df_columns = ["curr_list_date", "email_agent", "betrid", "status"]
+
+    # MAke sure at least 1 row is in df
+    data = [
+        "2023-10-26 23:16:24.523000 UTC",
+        "aml-app@sportsentmedia.com",
+        "BETR1234",
+        "started",
+    ]
+    df_first = pd.DataFrame([data], columns=df_columns)
 
     # Make response table structure
-    df = players.loc[:, ["curr_list_date", "email_agent", "betrid", "status"]]
+    df = pd.concat([df_first, players.loc[:, df_columns]], ignore_index=True)
+
     df.rename(
         columns={"curr_list_date": "timestamp_placed", "betrid": "username"},
         inplace=True,
