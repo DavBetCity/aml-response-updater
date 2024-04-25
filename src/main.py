@@ -3,7 +3,11 @@ import pandas as pd
 from db.bq import BQ
 from dotenv import load_dotenv
 from db.pgsql import connect_postgres
-from utils.queries import query_all_registry_players, get_all_colnames_query
+from utils.queries import (
+    get_all_colnames_query,
+    query_all_registry_players,
+    query_delete_newly_added_players,
+)
 
 load_dotenv()
 
@@ -72,15 +76,9 @@ def get_player_data():
 
 
 ############################################################################################
-###### MAIN
+###### UPDATE RESPONSE SHEET
 ############################################################################################
-def main(message=None):
-    local = os.environ.get("ENVIRONMENT") == "development" or False
-
-    bq = BQ(local=local)
-    players = get_player_data()
-    table_name = "registry_player_logs"
-    bq_table = f"betcity-319812.aml_app.{table_name}"
+def update_response_sheet(players, bq, bq_table):
     df_columns = ["curr_list_date", "email_agent", "betrid", "status"]
 
     # MAke sure at least 1 row is in df
@@ -110,6 +108,21 @@ def main(message=None):
     bq.create_replace_table(df, bq_table)
 
     print(f"Success inserted: {len(df)} rows to {bq_table}")
+
+
+############################################################################################
+###### MAIN
+############################################################################################
+def main(message=None):
+    local = os.environ.get("ENVIRONMENT") == "development" or False
+
+    bq = BQ(local=local)
+    players = get_player_data()
+    table_name = "registry_player_logs"
+    bq_table = f"betcity-319812.aml_app.{table_name}"
+
+    update_response_sheet(players, bq, bq_table)
+
     return "Success"
 
 
