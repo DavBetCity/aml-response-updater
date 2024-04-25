@@ -3,11 +3,7 @@ import pandas as pd
 from db.bq import BQ
 from dotenv import load_dotenv
 from db.pgsql import connect_postgres
-from utils.queries import (
-    get_all_colnames_query,
-    query_all_registry_players,
-    query_delete_newly_added_players,
-)
+from utils.queries import get_all_colnames_query, query_all_registry_players
 
 load_dotenv()
 
