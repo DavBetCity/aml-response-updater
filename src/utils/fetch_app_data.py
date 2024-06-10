@@ -58,3 +58,5 @@ def fetch_upload_data_aml_app_data(local):
     bq.create_replace_table(users, f"{base_name}users")
     bq.create_replace_table(userlog, f"{base_name}userlog")
     bq.create_replace_table(playerlog, f"{base_name}playerlog")
+
+    print("Data uploaded to BigQuery")
